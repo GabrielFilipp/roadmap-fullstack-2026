@@ -18,7 +18,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      {/* Adiciona a prop suppressHydrationWarning para evitar o erro de hidratação */}
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>
