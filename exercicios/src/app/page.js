@@ -24,6 +24,16 @@ export default function Home() {
     setTasks([]); // Limpa todas as tarefas
   };
 
+  const toggleTask = (id) => {
+    const updatedTasks = tasks.map((task) => {
+      if (task.id === id) {
+        return { ...task, completed: !task.completed };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+  };
+
   return (
     <main style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
       <Title>Roadmap Full Stack 2026</Title>
@@ -53,6 +63,7 @@ export default function Home() {
         <TaskList
           tasks={tasks}
           onRemoveTask={removeTask}
+          onToggleTask={toggleTask}
           onClearAll={clearAllTasks}
         />
       </section>

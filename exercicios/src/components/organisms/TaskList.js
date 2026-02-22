@@ -1,7 +1,12 @@
 import Button from "@/components/atoms/Button";
 import Title from "@/components/atoms/Title";
 
-export default function TaskList({ tasks, onRemoveTask, onClearAll }) {
+export default function TaskList({
+  tasks,
+  onRemoveTask,
+  onToggleTask,
+  onClearAll,
+}) {
   return (
     <section style={{ marginTop: "30px", width: "100%" }}>
       <Title nivel={2}>Suas Tarefas</Title>
@@ -23,7 +28,16 @@ export default function TaskList({ tasks, onRemoveTask, onClearAll }) {
                 borderBottom: "1px solid #eee",
               }}
             >
-              <span>{task.text}</span>
+              <span
+                onClick={() => onToggleTask(task.id)}
+                style={{
+                  cursor: "pointer",
+                  textDecoration: task.completed ? "line-through" : "none",
+                  color: task.completed ? "#aaa" : "#333",
+                }}
+              >
+                {task.text}
+              </span>
               <Button variant="danger" onClick={() => onRemoveTask(task.id)}>
                 Remover
               </Button>
