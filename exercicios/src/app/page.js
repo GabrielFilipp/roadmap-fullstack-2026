@@ -1,19 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Title from "@/components/atoms/Title";
 import TaskForm from "@/components/atoms/molecules/TaskForm";
 import TaskList from "@/components/organisms/TaskList";
 
 export default function Home() {
-  const [tasks, setTasks] = useState([
-    { id: 1, text: "Configurar Ambiente Ágil", completed: false },
-    { id: 2, text: "Estudar Atomic Design", completed: false },
-  ]);
+  const [tasks, setTasks] = useState([]);
+  const API_URL = "http://localhost:3001/tasks";
 
-  const addTask = (text) => {
-    const newTask = { id: Date.now(), text, completed: false };
-    setTasks([...tasks, newTask]); // Atualiza o estado com a nova tarefa adicionada
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        setTasks(data);
+      } catch (error) {
+        console.error(`Error fetching tasks: ${error}`);
+      }
+    };
+    fetchTasks();
+  }, []);
+
+  const addTask = async (text) => {
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+      const newTask = await response.json();
+      setTasks([...tasks, newTask]);
+    } catch (error) {
+      console.error(`Error adding task: ${error}`);
+    }
   };
 
   const removeTask = (idToRemove) => {
@@ -63,7 +83,7 @@ export default function Home() {
         <TaskList
           tasks={tasks}
           onRemoveTask={removeTask}
-          onToggleTask={toggleTask}
+          onToggleTask={() => {}}
           onClearAll={clearAllTasks}
         />
       </section>
