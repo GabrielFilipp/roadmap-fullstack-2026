@@ -36,22 +36,39 @@ export default function Home() {
     }
   };
 
-  const removeTask = (idToRemove) => {
-    setTasks(tasks.filter((task) => task.id !== idToRemove));
+  const removeTask = async (idToRemove) => {
+    try {
+      await fetch(`${API_URL}/${idToRemove}`, {
+        method: "DELETE",
+      });
+      setTasks(tasks.filter((task) => task.id !== idToRemove));
+    } catch (error) {
+      console.log(`Error removing task: ${error}`);
+    }
   };
 
-  const clearAllTasks = () => {
-    setTasks([]); // Limpa todas as tarefas
+  const clearAllTasks = async () => {
+    try {
+      const response = await fetch(`${API_URL}`, {
+        method: "DELETE",
+      });
+      response.ok ? setTasks([]) : ""; // Limpa todas as tarefas
+    } catch (error) {
+      console.error(`Error clearing tasks in database: ${error}`);
+    }
   };
 
-  const toggleTask = (id) => {
-    const updatedTasks = tasks.map((task) => {
-      if (task.id === id) {
-        return { ...task, completed: !task.completed };
-      }
-      return task;
-    });
-    setTasks(updatedTasks);
+  const toggleTask = async (id) => {
+    try {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: "PATCH",
+      });
+      const updatedTasks = await response.json();
+
+      setTasks(tasks.map((t) => (t.id === id ? updatedTasks : t)));
+    } catch (error) {
+      console.error(`Error toggling task: ${error}`);
+    }
   };
 
   return (
@@ -83,7 +100,7 @@ export default function Home() {
         <TaskList
           tasks={tasks}
           onRemoveTask={removeTask}
-          onToggleTask={() => {}}
+          onToggleTask={toggleTask}
           onClearAll={clearAllTasks}
         />
       </section>
