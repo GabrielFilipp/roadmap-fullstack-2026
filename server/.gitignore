@@ -1,5 +1,22 @@
-node_modules
-# Keep environment variables out of version control
-.env
+# Dependencies
+node_modules/
 
-/generated/prisma
+# Next.js build output
+.next/
+out/
+build/
+
+# Environment Variables (CRÍTICO para segurança)
+.env
+.env.local
+.env.development.local
+
+# Prisma / Database
+# Ignoramos o arquivo de dados, mas mantemos o schema e migrations
+*.db
+*.db-journal
+
+# Logs e Cache
+npm-debug.log*
+yarn-debug.log*
+.eslintcache
