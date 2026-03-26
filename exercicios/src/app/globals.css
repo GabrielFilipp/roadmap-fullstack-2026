@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+body {
+  /* Agora o Tailwind conseguirá "enxergar" as classes para o @apply */
+  @apply bg-gray-50 text-gray-900 antialiased;
+}
