@@ -22,33 +22,29 @@ export default function Home() {
   }, [fetchTasks]);
 
   return (
-    <main style={{ padding: "40px", maxWidth: "600px", margin: "0 auto" }}>
-      <Title>Roadmap Full Stack 2026</Title>
+    <main className={`max-w-2xl mx-auto p-8 space-y-8`}>
+      <header>
+        <Title>Roadmap Full Stack 2026</Title>
+        <p className={`text-gray-500 mt-2`}>
+          Gerencie suas metas diárias de evolução.{" "}
+        </p>
+      </header>
 
       <TaskForm onAddTask={addTask} />
+
       {loading ? (
-        <p> Loading tasks from server </p>
+        <div
+          className={`animate-pulse text-center p-10 text-blue-600 font-medium`}
+        >
+          Carregando tarefas sincronizadas...
+        </div>
       ) : (
         <TaskList
           tasks={tasks}
           onRemoveTask={removeTask}
           onToggleTask={toggleTask}
+          onClearAll={clearAll}
         />
-      )}
-
-      {tasks.length > 0 && (
-        <button
-          onClick={clearAll}
-          style={{
-            marginTop: "20px",
-            color: "red",
-            cursor: "pointer",
-            border: "none",
-            background: "none",
-          }}
-        >
-          Clear All Tasks
-        </button>
       )}
     </main>
   );

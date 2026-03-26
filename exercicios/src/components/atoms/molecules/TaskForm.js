@@ -14,11 +14,7 @@ export default function TaskForm({ onAddTask }) {
 
   return (
     <div
-      style={{
-        display: "flex",
-        gap: "10px",
-        alignItems: "center",
-      }}
+      className={`flex gap-2 mb-6 bg-white p-4 rounded-xl shadow-sm border border-gray-100`}
     >
       <Input
         value={taskText}

@@ -6,52 +6,64 @@ export default function TaskList({
   onRemoveTask,
   onToggleTask,
   onClearAll,
+  title = "Minhas Tarefas",
 }) {
   return (
-    <section style={{ marginTop: "30px", width: "100%" }}>
-      <Title nivel={2}>Suas Tarefas</Title>
+    <section
+      className={`bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden`}
+    >
+      <header
+        className={`px-6 py-4 border-bottom bg-gray-50 flex justify-between items-center`}
+      >
+        <Title nivel={2}>{title}</Title>
+        <span
+          className={`text-sm font-medium text-gray-500 bg-gray-200 px-2 py-1 rounded-full `}
+        >
+          {tasks.length} {tasks.length === 1 ? "Tarefa" : "Tarefas"}
+        </span>
+      </header>
 
-      {tasks.length === 0 ? (
-        <p style={{ color: "#666", fontStyle: "italic" }}>
-          Nenhuma tarefa adicionada ainda. Adicione uma nova tarefa!
-        </p>
-      ) : (
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {tasks.map((task) => (
+      <ul className={`divide-y divide-gray-100`}>
+        {tasks.length === 0 ? (
+          <li className={`p-10 text-center text-gray-400 italic`}>
+            Nenhuma Tarefa Encontrada. Adicione uma nova tarefa!
+          </li>
+        ) : (
+          tasks.map((task) => (
             <li
               key={task.id}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "10px",
-                borderBottom: "1px solid #eee",
-              }}
+              className={`flex items-center justify-between p-4 hover:bg-blue-50/30 transition-colors group`}
             >
-              <span
-                onClick={() => onToggleTask(task.id)}
-                style={{
-                  cursor: "pointer",
-                  textDecoration: task.completed ? "line-through" : "none",
-                  color: task.completed ? "#aaa" : "#333",
-                }}
-              >
-                {task.text}
-              </span>
+              <div className={`flex items-center gap-3`}>
+                <input
+                  type="checkbox"
+                  checked={task.completed}
+                  onChange={() => onToggleTask(task.id)}
+                  className={`w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer`}
+                />
+                <span
+                  className={`text-lg transition-all ${task.completed ? "line-through text-gray-300" : "text-gray-700"}`}
+                >
+                  {" "}
+                  {task.text}
+                </span>
+              </div>
               <Button variant="danger" onClick={() => onRemoveTask(task.id)}>
-                Remover
+                Delete
               </Button>
             </li>
-          ))}
-        </ul>
-      )}
+          ))
+        )}
+      </ul>
 
       {tasks.length > 0 && (
-        <div style={{ marginTop: "20px" }}>
+        <footer
+          className={`px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end`}
+        >
           <Button variant="danger" onClick={onClearAll}>
             Excluir todas as tarefas
           </Button>
-        </div>
+        </footer>
       )}
     </section>
   );

@@ -1,14 +1,4 @@
 export default function Input({ value, onChange, placeholder, onKeyDown }) {
-  const styles = {
-    padding: "10px",
-    borderRadius: "6px",
-    border: "1px solid #ccc",
-    fontSize: "16px",
-    width: "100%",
-    outline: "none",
-    marginBottom: "10px",
-  };
-
   return (
     <input
       type="text"
@@ -16,7 +6,7 @@ export default function Input({ value, onChange, placeholder, onKeyDown }) {
       onChange={onChange}
       placeholder={placeholder}
       onKeyDown={onKeyDown}
-      style={styles}
+      className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all`}
     />
   );
 }
